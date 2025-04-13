@@ -203,7 +203,7 @@ async def echo(bot, update):
                 chat_id=update.chat.id,
                 text=Translation.NO_VOID_FORMAT_FOUND.format(str(error_message)),
                 reply_to_message_id=update.id,
-                parse_mode="html",
+                parse_mode="HTML",
                 disable_web_page_preview=True
             )
             return False
@@ -346,7 +346,7 @@ async def echo(bot, update):
                 chat_id=update.chat.id,
                 text=Translation.FORMAT_SELECTION.format(thumbnail) + "\n" + Translation.SET_CUSTOM_USERNAME_PASSWORD,
                 reply_markup=reply_markup,
-                parse_mode="html",
+                parse_mode="HTML",
                 reply_to_message_id=update.id
             )
         else:
@@ -371,6 +371,6 @@ async def echo(bot, update):
                 chat_id=update.chat.id,
                 text=Translation.FORMAT_SELECTION.format(""),
                 reply_markup=reply_markup,
-                parse_mode="html",
+                parse_mode="HTML",
                 reply_to_message_id=update.id
             )
