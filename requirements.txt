@@ -11,4 +11,4 @@ olefile
 lk21
 filetype
 tldextract
-pyrogram==1.4.16
+pyrogram
