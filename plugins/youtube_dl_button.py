@@ -102,9 +102,6 @@ async def youtube_dl_call_back(bot, update):
         chat_id=update.message.chat.id,
         message_id=update.message.id
     )
-    user = await bot.get_me()
-    mention = user["mention"]
-    description = Translation.CUSTOM_CAPTION_UL_FILE.format(mention)
     if "fulltitle" in response_json:
         description = response_json["fulltitle"][0:1021]
         # escape Markdown and special characters
@@ -251,8 +248,6 @@ async def youtube_dl_call_back(bot, update):
                 await bot.send_audio(
                     chat_id=update.message.chat.id,
                     audio=download_directory,
-                    caption=description,
-                    parse_mode="HTML",
                     duration=duration,
                     # performer=response_json["uploader"],
                     # title=response_json["title"],
@@ -271,8 +266,6 @@ async def youtube_dl_call_back(bot, update):
                     chat_id=update.message.chat.id,
                     document=download_directory,
                     thumb=thumb_image_path,
-                    caption=description,
-                    parse_mode="HTML",
                     # reply_markup=reply_markup,
                     reply_to_message_id=update.message.reply_to_message.id,
                     progress=progress_for_pyrogram,
@@ -301,8 +294,6 @@ async def youtube_dl_call_back(bot, update):
                 await bot.send_video(
                     chat_id=update.message.chat.id,
                     video=download_directory,
-                    caption=description,
-                    parse_mode="HTML",
                     duration=duration,
                     width=width,
                     height=height,
@@ -334,8 +325,7 @@ async def youtube_dl_call_back(bot, update):
                             media_album_p.append(
                                 InputMediaPhoto(
                                     media=image,
-                                    caption=caption,
-                                    parse_mode="html"
+                                    caption=caption
                                 )
                             )
                         else:
