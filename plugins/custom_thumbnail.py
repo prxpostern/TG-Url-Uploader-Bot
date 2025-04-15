@@ -59,8 +59,9 @@ async def generate_custom_thumbnail(bot, update):
                         reply_to_message_id=update.id
                     )
                 try:
-                    [os.remove(download_location + i) for i in list_im ]
-                    os.remove(download_location)
+                    #[os.remove(download_location + i) for i in list_im ]
+                    #os.remove(download_location)
+                    logger.info("dont delete files")
                 except:
                     pass
             else:
@@ -109,7 +110,8 @@ async def delthumbnail(bot, update):
     if update.from_user.id in Config.AUTH_USERS:
         download_location = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id)
         try:
-            os.remove(download_location + ".jpg")
+            #os.remove(download_location + ".jpg")
+            logger.info("dont remove 3")
             # os.remove(download_location + ".json")
         except:
             pass
