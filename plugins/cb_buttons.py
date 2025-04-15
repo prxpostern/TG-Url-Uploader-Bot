@@ -56,7 +56,8 @@ async def button(bot, update):
             type_of_extract, index_extractor, undefined_tcartxe = cb_data.split(":")
             if index_extractor == "NONE":
                 try:
-                    shutil.rmtree(extract_dir_path)
+                    #shutil.rmtree(extract_dir_path)
+                    logger.info("dont remove cb_buttons2")
                 except:
                     pass
                 await bot.edit_message_text(
@@ -84,9 +85,10 @@ async def button(bot, update):
                         )
                     )
                     i = i + 1
-                    os.remove(current_file_name)
+                    #os.remove(current_file_name)
                 try:
-                    shutil.rmtree(extract_dir_path)
+                    #shutil.rmtree(extract_dir_path)
+                    logger.info("dont remove cb_buttons3")
                 except:
                     pass
                 await bot.edit_message_text(
@@ -113,7 +115,8 @@ async def button(bot, update):
                     )
                 )
                 try:
-                    shutil.rmtree(extract_dir_path)
+                    #shutil.rmtree(extract_dir_path)
+                    logger.info("dont remove cb_buttons4")
                 except:
                     pass
                 await bot.edit_message_text(
