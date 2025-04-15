@@ -75,50 +75,9 @@ async def echo(bot, update):
                     if metadata.has("duration"):
                         duration = metadata.get('duration').seconds
             await pablo.edit_text('Uploading...')
-            start_time = time.time()
-            if xfiletype in ['video/mp4', 'video/x-matroska', 'video/webm']:
-                await bot.send_video(
-                    chat_id=update.chat.id,
-                    video=dldir,
-                    caption=file_name,
-                    duration=duration,
-                    reply_to_message_id=update.id,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        Translation.UPLOAD_START,
-                        pablo,
-                        start_time
-                    )
-                )
-            elif xfiletype == 'audio/mpeg':
-                await bot.send_audio(
-                    chat_id=update.chat.id,
-                    audio=dldir,
-                    caption=file_name,
-                    duration=duration,
-                    reply_to_message_id=update.id,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        Translation.UPLOAD_START,
-                        pablo,
-                        start_time
-                    )
-                )
-            else:
-                await bot.send_document(
-                    chat_id=update.chat.id,
-                    document=dldir,
-                    caption=file_name,
-                    reply_to_message_id=update.id,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        Translation.UPLOAD_START,
-                        pablo,
-                        start_time
-                    )
-                )
+            #start_time = time.time()
             await pablo.delete()
-            shutil.rmtree(folder)
+            #shutil.rmtree(folder)
             return
         if "|" in url:
             url_parts = url.split("|")
