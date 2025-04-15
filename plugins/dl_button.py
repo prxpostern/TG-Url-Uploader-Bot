@@ -86,6 +86,7 @@ async def ddl_call_back(bot, update):
     if not os.path.isdir(tmp_directory_for_each_user):
         os.makedirs(tmp_directory_for_each_user)
     download_directory = tmp_directory_for_each_user + "/" + custom_file_name
+    logger.info(custom_file_name)
     command_to_exec = []
     async with aiohttp.ClientSession() as session:
         c_time = time.time()
@@ -164,98 +165,16 @@ async def ddl_call_back(bot, update):
                 # https://pillow.readthedocs.io/en/3.1.x/reference/Image.html#create-thumbnails
             else:
                 thumb_image_path = None
-            start_time = time.time()
-            # try to upload file
-            if tg_send_type == "audio":
-                user = await bot.get_me()
-                mention = user["mention"]
-                audio = await bot.send_audio(
-                    chat_id=update.message.chat.id,
-                    audio=download_directory,
-                    caption=description + f"\n\nSubmitted by {update.from_user.mention}\nUploaded by {mention}",
-                    duration=duration,
-                    # performer=response_json["uploader"],
-                    # title=response_json["title"],
-                    # reply_markup=reply_markup,
-                    thumb=thumb_image_path,
-                    reply_to_message_id=update.message.reply_to_message.id,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        Translation.UPLOAD_START,
-                        update.message,
-                        start_time
-                    )
-                )
-                await audio.forward(Config.LOG_CHANNEL)
-            elif tg_send_type == "file":
-                user = await bot.get_me()
-                mention = user["mention"]
-                document = await bot.send_document(
-                    chat_id=update.message.chat.id,
-                    document=download_directory,
-                    thumb=thumb_image_path,
-                    caption=description + f"\n\nSubmitted by {update.from_user.mention}\nUploaded by {mention}",
-                    # reply_markup=reply_markup,
-                    reply_to_message_id=update.message.reply_to_message.id,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        Translation.UPLOAD_START,
-                        update.message,
-                        start_time
-                    )
-                )
-                await document.forward(Config.LOG_CHANNEL)
-            elif tg_send_type == "vm":
-                user = await bot.get_me()
-                mention = user["mention"]
-                video_note = await bot.send_video_note(
-                    chat_id=update.message.chat.id,
-                    video_note=download_directory,
-                    duration=duration,
-                    length=width,
-                    thumb=thumb_image_path,
-                    reply_to_message_id=update.message.reply_to_message.id,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        Translation.UPLOAD_START,
-                        update.message,
-                        start_time
-                    )
-                )
-                vm = await video_note.forward(Config.LOG_CHANNEL)
-                await vm.reply_text(f"Submitted by {update.from_user.mention}\nUploaded by {mention}")
-            elif tg_send_type == "video":
-                user = await bot.get_me()
-                mention = user["mention"]
-                video = await bot.send_video(
-                    chat_id=update.message.chat.id,
-                    video=download_directory,
-                    caption=description + f"\n\nSubmitted by {update.from_user.mention}\nUploaded by {mention}",
-                    duration=duration,
-                    width=width,
-                    height=height,
-                    supports_streaming=True,
-                    # reply_markup=reply_markup,
-                    thumb=thumb_image_path,
-                    reply_to_message_id=update.message.reply_to_message.id,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        Translation.UPLOAD_START,
-                        update.message,
-                        start_time
-                    )
-                )
-                await video.forward(Config.LOG_CHANNEL)
-            else:
-                logger.info("Did this happen? :\\")
-            end_two = datetime.now()
+
             try:
-                os.remove(download_directory)
-                os.remove(thumb_image_path)
+                #os.remove(thumb_image_path)
+                logger.info("dont remove dl_button1")
+                logger.info(download_directory)
             except:
                 pass
             time_taken_for_download = (end_one - start).seconds
             time_taken_for_upload = (end_two - end_one).seconds
+            logger.info(download_directory)
             await bot.edit_message_text(
                 text=Translation.AFTER_SUCCESSFUL_UPLOAD_MSG_WITH_TS.format(time_taken_for_download, time_taken_for_upload),
                 chat_id=update.message.chat.id,
@@ -269,7 +188,6 @@ async def ddl_call_back(bot, update):
             message_id=update.message.id,
             disable_web_page_preview=True
         )
-
 
 async def download_coroutine(bot, session, url, file_name, chat_id, message_id, start):
     downloaded = 0
