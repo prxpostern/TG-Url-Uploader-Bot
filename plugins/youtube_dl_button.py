@@ -103,8 +103,9 @@ async def youtube_dl_call_back(bot, update):
         message_id=update.message.id
     )
     if "fulltitle" in response_json:
-        description = response_json["fulltitle"][0:1021]
+        #description = response_json["fulltitle"][0:1021]
         # escape Markdown and special characters
+        logger.info("fulltitle")
     tmp_directory_for_each_user = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id)
     if not os.path.isdir(tmp_directory_for_each_user):
         os.makedirs(tmp_directory_for_each_user)
@@ -173,6 +174,7 @@ async def youtube_dl_call_back(bot, update):
     if t_response:
         # logger.info(t_response)
         os.remove(save_ytdl_json_path)
+        logger.info("dont remove youtube_dl_button1")
         end_one = datetime.now()
         time_taken_for_download = (end_one -start).seconds
         file_size = Config.TG_MAX_FILE_SIZE + 1
@@ -244,72 +246,6 @@ async def youtube_dl_call_back(bot, update):
                 thumb_image_path = None
             start_time = time.time()
             # try to upload file
-            if tg_send_type == "audio":
-                await bot.send_audio(
-                    chat_id=update.message.chat.id,
-                    audio=download_directory,
-                    duration=duration,
-                    # performer=response_json["uploader"],
-                    # title=response_json["title"],
-                    # reply_markup=reply_markup,
-                    thumb=thumb_image_path,
-                    reply_to_message_id=update.message.reply_to_message.id,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        Translation.UPLOAD_START,
-                        update.message,
-                        start_time
-                    )
-                )
-            elif tg_send_type == "file":
-                await bot.send_document(
-                    chat_id=update.message.chat.id,
-                    document=download_directory,
-                    thumb=thumb_image_path,
-                    # reply_markup=reply_markup,
-                    reply_to_message_id=update.message.reply_to_message.id,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        Translation.UPLOAD_START,
-                        update.message,
-                        start_time
-                    )
-                )
-            elif tg_send_type == "vm":
-                await bot.send_video_note(
-                    chat_id=update.message.chat.id,
-                    video_note=download_directory,
-                    duration=duration,
-                    length=width,
-                    thumb=thumb_image_path,
-                    reply_to_message_id=update.message.reply_to_message.id,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        Translation.UPLOAD_START,
-                        update.message,
-                        start_time
-                    )
-                )
-            elif tg_send_type == "video":
-                await bot.send_video(
-                    chat_id=update.message.chat.id,
-                    video=download_directory,
-                    duration=duration,
-                    width=width,
-                    height=height,
-                    supports_streaming=True,
-                    # reply_markup=reply_markup,
-                    thumb=thumb_image_path,
-                    reply_to_message_id=update.message.reply_to_message.id,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        Translation.UPLOAD_START,
-                        update.message,
-                        start_time
-                    )
-                )
-            else:
-                logger.info("Did this happen? :\\")
             end_two = datetime.now()
             time_taken_for_upload = (end_two - end_one).seconds
             #
@@ -325,7 +261,7 @@ async def youtube_dl_call_back(bot, update):
                             media_album_p.append(
                                 InputMediaPhoto(
                                     media=image,
-                                    caption=caption
+                                    caption=caption,
                                 )
                             )
                         else:
@@ -343,8 +279,9 @@ async def youtube_dl_call_back(bot, update):
             )
             #
             try:
-                shutil.rmtree(tmp_directory_for_each_user)
-                os.remove(thumb_image_path)
+                #shutil.rmtree(tmp_directory_for_each_user)
+                #os.remove(thumb_image_path)
+                logger.info("dont remove youtube_dl_button2")
             except:
                 pass
             await bot.edit_message_text(
@@ -353,3 +290,4 @@ async def youtube_dl_call_back(bot, update):
                 message_id=update.message.id,
                 disable_web_page_preview=True
             )
+
